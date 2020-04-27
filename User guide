@@ -1,8 +1,7 @@
 1. Open the "DataAndResults.xslx" file.
-2. Open the "login" worksheet.
+2. Open the "DataForFacebookLogin" worksheet.
 3. In the username and password fields, enter several different combinations (correct and incorrect) for logging into your facebook account.
 4. If username and password are correct, enter "yes" in the appropirate cell of correct/incorrect column. Otherwise, enter "no".
-5. Open the "correct_login" worksheet and enter the correct username and password of your facebook account in the appropriate fields.
-6. Save the "DataAndResults.xslx" file.
-7. After running the code you will get the results of the login test in the worksheet "test_login_results" of the "DataAndResults.xslx" file
-8. The results of other tests will be displayed in the "other_test_results" worksheet of the file "DataAndResults.xlsx".
+5. Save the "DataAndResults.xslx" file.
+6. After running the code you will get the results of the login test in the worksheet "TestResultsForFacebookLogin" of the "DataAndResults.xslx" file.
+7. The results of other tests will be displayed in the "other_test_results" worksheet of the file "DataAndResults.xlsx".
