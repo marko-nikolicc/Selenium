@@ -6,6 +6,7 @@ from Libraries.Formatting import Format_TestResultsForFacebookLogin,Format_other
 import os
 from openpyxl import load_workbook
 from Libraries.Styles import *
+from Libraries.Functions import WriteResult
 
 class FormatTable():
 
@@ -76,6 +77,47 @@ class FacebookLogin(unittest.TestCase):
     def tearDown(self):
         self.DataAndResults.save("DataAndResults.xlsx")
 
+class NT_Company(unittest.TestCase):
+
+    def setUp(self):
+        self.filePath = os.path.join(os.getcwd(), "DataAndResults.xlsx")
+        self.DataAndResults = load_workbook(self.filePath)
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.driver.get("http://www.nt.rs/")
+        self.driver.implicitly_wait(15)
+
+    def test_Click_O_NAMA(self):
+        try:
+            O_NAMA = self.driver.find_element_by_xpath("//a[contains(text(),'O NAMA')]")
+            O_NAMA.click()
+            assert "NT Company - O KOMPANIJI" in self.driver.title
+            result = "pass"
+        except AssertionError:
+            result = "fail"
+        except:
+            result = "repeat the test"
+
+        Sheet3 = self.DataAndResults["other_test_results"]
+        number = 2
+        for value in Sheet3.iter_rows(min_row=1, min_col=1, max_col=3, values_only=True):
+            if Sheet3["A" + str(number)].value == "" or Sheet3["A" + str(number)].value == None:
+                Sheet3["A" + str(number)] = "test_Click_O_NAMA"
+                Sheet3["A" + str(number)].alignment = position_left()
+                Sheet3["B" + str(number)] = "NT_Company"
+                Sheet3["B" + str(number)].alignment = position_center()
+                Sheet3["C" + str(number)] = result
+                Sheet3["C" + str(number)].alignment = position_center()
+                if result == "pass":
+                    Sheet3["C" + str(number)].font = stylePass()
+                elif result == "fail":
+                    Sheet3["C" + str(number)].font = styleFail()
+            else:
+                number += 1
+
+    def tearDown(self):
+        self.DataAndResults.save("DataAndResults.xlsx")
+        self.driver.quit()
 
 if __name__ == "__main__":
     unittest.main()
