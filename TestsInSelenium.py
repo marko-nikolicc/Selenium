@@ -6,7 +6,6 @@ from Libraries.Formatting import Format_TestResultsForFacebookLogin,Format_other
 import os
 from openpyxl import load_workbook
 from Libraries.Styles import *
-from Libraries.Functions import WriteResult
 
 class FormatTable():
 
@@ -43,26 +42,32 @@ class FacebookLogin(unittest.TestCase):
             attempt.login()
             time.sleep(1)
 
-            if correctness in ["yes","YES","Yes"]:
+            if correctness in ["yes", "YES", "Yes"]:
                 try:
                     self.driver.implicitly_wait(15)
-                    self.driver.find_element_by_id("userNavigationLabel")
+                    assert "Home" in self.driver.page_source
+                    assert "Find" in self.driver.page_source
+                    assert "Friends" in self.driver.page_source
+                    assert "Create" in self.driver.page_source
                     Sheet2["D" + str(number)].font = stylePass()
                     Sheet2["D" + str(number)].alignment = position_center()
-                    Sheet2["D" + str(number)]="pass"
-                except:
+                    Sheet2["D" + str(number)] = "pass"
+                except AssertionError:
                     Sheet2["D" + str(number)].font = styleFail()
                     Sheet2["D" + str(number)].alignment = position_center()
                     Sheet2["D" + str(number)] = "fail"
 
-            elif correctness in ["no","NO","No"]:
+            elif correctness in ["no", "NO", "No"]:
                 try:
-                    self.driver.implicitly_wait(5)
-                    self.driver.find_element_by_id("userNavigationLabel")
+                    self.driver.implicitly_wait(10)
+                    assert "Home" in self.driver.page_source
+                    assert "Find" in self.driver.page_source
+                    assert "Friends" in self.driver.page_source
+                    assert "Create" in self.driver.page_source
                     Sheet2["D" + str(number)].font = styleFail()
                     Sheet2["D" + str(number)].alignment = position_center()
                     Sheet2["D" + str(number)] = "fail"
-                except:
+                except AssertionError:
                     Sheet2["D" + str(number)].font = stylePass()
                     Sheet2["D" + str(number)].alignment = position_center()
                     Sheet2["D" + str(number)] = "pass"
